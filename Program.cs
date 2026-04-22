@@ -1,4 +1,6 @@
-﻿namespace PlayBox
+﻿using System;
+
+namespace PlayBox
 {
     internal class Program
     {
@@ -22,6 +24,37 @@
             S.Play();
             e1.Play();
             e2.Play();
+
+            // ---------------- SUBSCRIPTION PLAN TEST ----------------
+            Console.WriteLine("\n===== SUBSCRIPTION PLAN TEST =====");
+
+            SubscriptionPlan basic = new SubscriptionPlan("Basic", 1, 9.99);
+            SubscriptionPlan premium = new SubscriptionPlan("Premium", 4, 19.99);
+
+            basic.DisplayPlan();
+            premium.DisplayPlan();
+
+            // ---------------- USER TEST ----------------
+            Console.WriteLine("\n===== USER TEST =====");
+
+            User user1 = new User("Billy", premium);
+
+            Console.WriteLine($"User: {user1.Name}");
+            Console.Write("User Subscription: ");
+            user1.Subscription.DisplayPlan();
+            Console.WriteLine();
+
+            // Add to watchlist
+            user1.AddToWatchList(m);
+            user1.AddToWatchList(C1);
+
+            // Rate content
+            user1.RateContent(m, 9.5);
+            user1.RateContent(C1, 8.8);
+
+            // Add to history
+            user1.AddToHistory(m);
+            user1.AddToHistory(C1);
         }
     }
 }

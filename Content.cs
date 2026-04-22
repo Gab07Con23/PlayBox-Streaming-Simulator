@@ -12,7 +12,7 @@ namespace PlayBox
         public string Title { get; protected set; }
         public string Description { get; protected set; }
         public string Genre { get; protected set; }
-        public double Rating { get; protected set; }
+        public double Rating { get; private set; }
         public int ReleaseYear { get; protected set; }
 
         // Constructor
@@ -35,6 +35,18 @@ namespace PlayBox
             Console.WriteLine($"Release Year: {ReleaseYear}");
             Console.WriteLine($"Description: {Description}");
             Console.WriteLine("========================");
+        }
+
+        //Allow user to rate the content
+        public virtual void AddRating(double rating)
+        {
+            if (rating < 0 || rating > 10)
+            {
+                Console.WriteLine("Invalid rating. Must be between 0 and 10.");
+                return;
+            }
+
+            this.Rating = rating;
         }
 
         // Makes the user able to play or pause the content selected (Movie, Series)
