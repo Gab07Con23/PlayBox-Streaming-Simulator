@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlayBox
 {
-    internal class Episode : Content
+    public class Episode : Content
     {
         public int EpisodeNumber {  get; protected set; }
         public int SeasonNumber { get; protected set; }

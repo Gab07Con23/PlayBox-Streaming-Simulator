@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlayBox
 {
-    internal abstract class Content
+    public abstract class Content
     {
         // Declaring all variables used in the system in content class
         public string Title { get; protected set; }
