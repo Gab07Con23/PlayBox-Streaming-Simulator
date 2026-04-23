@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlayBox
 {
-    internal class SubscriptionPlan
+    public class SubscriptionPlan
     {
         // Private fields
         private string planName;
