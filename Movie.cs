@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PlayBox
 {
-    internal class Movie: Content
+    public class Movie: Content
     {
         private int Duration {  get; set; }
 
