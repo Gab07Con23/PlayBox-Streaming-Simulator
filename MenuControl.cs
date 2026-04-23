@@ -37,7 +37,7 @@ namespace PlayBox
                     case "2": WatchlistMenu(); break;
                     case "3": _currentUser.Subscription.DisplayPlan(); Console.ReadKey(); break;
                     case "4": running = false; break;
-                    default: Console.WriteLine("Invalid option."); Console.ReadKey(); break;
+                    default: Console.Write("Invalid option. Press Enter to continue..."); Console.ReadKey(); break;
                 }
             }
             Console.WriteLine("Thank you for using PlayBox!");

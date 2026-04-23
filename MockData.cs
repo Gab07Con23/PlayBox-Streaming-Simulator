@@ -18,9 +18,10 @@ namespace PlayBox
             {
                 string randomGenre = genres[_random.Next(genres.Length)];
                 int randomYear = _random.Next(2000, 2026);
+                double randomRating = (_random.NextDouble() * (10 - 2)) + 2;
 
                 // Using hardcoded rating of 8.0 for consistency
-                allContent.Add(new Movie($"Movie {i}", randomGenre, 8.0, randomYear, "Description...", 120));
+                allContent.Add(new Movie($"Movie {i}", randomGenre, (int)randomRating, randomYear, "Description...", 120));
             }
 
             // Generate 6 Series
