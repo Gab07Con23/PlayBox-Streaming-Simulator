@@ -6,26 +6,25 @@ namespace PlayBox
     {
         static void Main(string[] args)
         {
-            // testing for MockData.cs 
-            // retrieve movies and series
+            // 1. Load data
+            // We initialize the library once so it can be passed to our controllers
             List<Content> library = MockData.GetMockData();
 
-            foreach (var item in library) 
-            {
-                item.DisplayInfo();
-            }
+            // 2. Simple User Login
+            // In a real app, this would check a database, but for now we create a user object
+            Console.WriteLine("=======================");
+            Console.WriteLine("Welcome to Playbox!");
+            Console.Write("Enter your username: ");
+            string name = Console.ReadLine();
 
+            // Assume a default plan for new users for now
+            SubscriptionPlan defaultPlan = new SubscriptionPlan("Basic", 1, 9.99);
+            User currentUser = new User(name, defaultPlan);
 
-            // testing for mediaplayer.cs
-            /*MediaPlayer player = new MediaPlayer();
-            List<Content> library = MockData.GetMockData();
-
-            player.Play(library[3]);
-
-            player.Pause();
-            player.Resume();
-            player.Stop();
-            */
+            // 3. Start the application
+            // We pass the dependencies (user and library) to our MenuController
+            MenuController app = new MenuController(currentUser, library);
+            app.Run();
         }
     }
 }

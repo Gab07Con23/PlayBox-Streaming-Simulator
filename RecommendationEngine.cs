@@ -6,42 +6,52 @@ using System.Threading.Tasks;
 
 namespace PlayBox
 {
-    internal class RecommendationEngine
+    public class RecommendationEngine
     {
-        private List<Content> allContent;
+        private List<Content> _allContent;
 
-        // Constructor
         public RecommendationEngine(List<Content> contentList)
         {
-            allContent = contentList;
+            _allContent = contentList;
         }
 
-        // Recommend by Genre
-        public List<Content> RecommendByGenre(User user, string genre)
+        public List<Content> GetPersonalizedRecommendations(User user)
         {
-            return allContent.Where(c => c.Genre == genre).ToList();
-        }
+            var watchHistory = user.GetWatchHistory();
 
-        // Recommend Trending (simple: highest rating)
-        public List<Content> RecommendTrending()
-        {
-            return allContent
-                .OrderByDescending(c => c.Rating)
-                .Take(5)
+            return _allContent
+                // 1. Filter out what they have already watched
+                .Except(watchHistory)
+                // 2. Project into a temporary object with a score
+                .Select(c => new {
+                    Content = c,
+                    Score = CalculateScore(c, user, watchHistory)
+                })
+                // 3. Sort by the highest score
+                .OrderByDescending(x => x.Score)
+                .Select(x => x.Content)
+                .Take(5) // Top 5 recommendations
                 .ToList();
         }
 
-        // Recommend based on watch history
-        public List<Content> RecommendBasedOnHistory(User user)
+        private double CalculateScore(Content c, User user, List<Content> history)
         {
-            var historyGenres = user.GetWatchHistory()
-                                     .Select(c => c.Genre)
-                                     .Distinct();
+            double score = 0;
 
-            return allContent
-                .Where(c => historyGenres.Contains(c.Genre))
-                .Take(5)
-                .ToList();
+            // Preference 1: Genre match (favored if user watches many of that genre)
+            var favoriteGenres = history.GroupBy(h => h.Genre)
+                                        .OrderByDescending(g => g.Count())
+                                        .Select(g => g.Key).Take(2);
+
+            if (favoriteGenres.Contains(c.Genre)) score += 5;
+
+            // Preference 2: Quality (Rating)
+            score += c.Rating * 0.5;
+
+            // Preference 3: Recent releases (e.g., last 3 years)
+            if (c.ReleaseYear >= 2023) score += 3;
+
+            return score;
         }
     }
 }
