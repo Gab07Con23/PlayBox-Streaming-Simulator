@@ -55,6 +55,30 @@ namespace PlayBox
             // Add to history
             user1.AddToHistory(m);
             user1.AddToHistory(C1);
+
+            // ---------------- RECOMMENDATION ENGINE TEST ----------------
+            Console.WriteLine("\n===== RECOMMENDATION ENGINE TEST =====");
+
+            List<Content> allContent = new List<Content>()
+            {
+                m, C1, C2, e1, e2
+            };
+
+            RecommendationEngine engine = new RecommendationEngine(allContent);
+
+            Console.WriteLine("\nTrending:");
+            var trending = engine.RecommendTrending();
+            foreach (var content in trending)
+            {
+                Console.WriteLine(content.Title);
+            }
+
+            Console.WriteLine("\nBased on Watch History:");
+            var recommended = engine.RecommendBasedOnHistory(user1);
+            foreach (var content in recommended)
+            {
+                Console.WriteLine(content.Title);
+            }
         }
     }
 }
